@@ -1,0 +1,29 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+void backtrack(int* candidates, int candidatesSize, int target, int start, int* path, int pathLen, int** res, int* returnSize, int* returnColumnSizes);
+
+void combinationSum(int* candidates, int candidatesSize, int target, int* returnSize, int** returnColumnSizes, int** res) {
+    int* path = (int*)malloc(candidatesSize * sizeof(int));
+    *returnSize = 0;
+    backtrack(candidates, candidatesSize, target, 0, path, 0, res, returnSize, *returnColumnSizes);
+}
+
+void backtrack(int* candidates, int candidatesSize, int target, int start, int* path, int pathLen, int** res, int* returnSize, int* returnColumnSizes) {
+    if (target < 0) {
+        return;
+    }
+    if (target == 0) {
+        res[*returnSize] = (int*)malloc(pathLen * sizeof(int));
+        returnColumnSizes[*returnSize] = pathLen;
+        for (int i = 0; i < pathLen; i++) {
+            res[*returnSize][i] = path[i];
+        }
+        (*returnSize)++;
+        return;
+    }
+    for (int i = start; i < candidatesSize; i++) {
+        path[pathLen] = candidates[i];
+        backtrack(candidates, candidatesSize, target - candidates[i], i, path, pathLen + 1, res, returnSize, returnColumnSizes);
+    }
+}
