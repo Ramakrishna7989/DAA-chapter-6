@@ -1,0 +1,29 @@
+#include <stdio.h>
+
+void swap(int* a, int* b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+void permute(int* nums, int numsSize, int index) {
+    if (index == numsSize) {
+        for (int i = 0; i < numsSize; i++) {
+            printf("%d ", nums[i]);
+        }
+        printf("\n");
+    } else {
+        for (int i = index; i < numsSize; i++) {
+            swap(&nums[index], &nums[i]);
+            permute(nums, numsSize, index + 1);
+            swap(&nums[index], &nums[i]);
+        }
+    }
+}
+
+int main() {
+    int nums[] = {1, 2, 3};
+    int numsSize = sizeof(nums) / sizeof(nums[0]);
+    permute(nums, numsSize, 0);
+    return 0;
+}
