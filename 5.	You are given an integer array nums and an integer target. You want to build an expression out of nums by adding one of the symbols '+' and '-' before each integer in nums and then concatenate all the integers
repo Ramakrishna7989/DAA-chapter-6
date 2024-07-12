@@ -1,0 +1,19 @@
+int findTargetSumWays(int* nums, int numsSize, int target) {
+    int sum = 0;
+    for (int i = 0; i < numsSize; i++) {
+        sum += nums[i];
+    }
+    if ((sum + target) % 2 != 0 || sum < target) {
+        return 0;
+    }
+    int new_target = (sum + target) / 2;
+    int dp[new_target + 1];
+    memset(dp, 0, sizeof(dp));
+    dp[0] = 1;
+    for (int i = 0; i < numsSize; i++) {
+        for (int j = new_target; j >= nums[i]; j--) {
+            dp[j] += dp[j - nums[i]];
+        }
+    }
+    return dp[new_target];
+}
